@@ -25,12 +25,10 @@ const connection = new JitsiMeetJS.JitsiConnection(null, null, {
 
 let webcamTrack = null;
 async function setWebcamTrack(cameraDeviceId) {
-  if (webcamTrack !== null) {
-    room.removeTrack(webcamTrack);
-  }
-
+  if (webcamTrack !== null) room.removeTrack(webcamTrack);
   [webcamTrack] = (await JitsiMeetJS.createLocalTracks({ devices: ['video'], cameraDeviceId }));
   room.addTrack(webcamTrack);
+  setTimeout(reRender, 1000);
 }
 
 let microphoneTrack = null;
@@ -38,6 +36,7 @@ async function setMicrophoneTrack(micDeviceId) {
   if (microphoneTrack !== null) room.removeTrack(microphoneTrack);
   [microphoneTrack] = (await JitsiMeetJS.createLocalTracks({ devices: ['audio'], micDeviceId }));
   room.addTrack(microphoneTrack);
+  setTimeout(reRender, 1000);
 }
 
 async function setSpeaker(deviceId) {
@@ -74,7 +73,7 @@ async function handleDeviceListChanged() {
   webcams = videoinputs;
   microphones = audioinputs;
   speakers = audiooutputs;
-  reRender();
+  setTimeout(reRender, 1000);
 }
 
 const whitelist = [
@@ -102,6 +101,7 @@ async function handleParticipantsUpdate() {
     const myName = room.displayNmae;
     if (whitelist.indexOf(myName) > -1) {
       tmp[myName] = {
+        isMyself: true,
         getTracksByMediaType(mediaType) {
           return room.getLocalTracks().filter((track) => track.getType() === mediaType);
         },
@@ -111,7 +111,7 @@ async function handleParticipantsUpdate() {
 
   participants = tmp;
 
-  reRender();
+  setTimeout(reRender, 1000);
 }
 
 function handleRoomJoin() {
@@ -134,8 +134,16 @@ function handleRoomJoin() {
     JitsiMeetJS.events.conference.DISPLAY_NAME_CHANGED,
     handleParticipantsUpdate,
   );
+  room.on(
+    JitsiMeetJS.events.conference.TRACK_ADDED,
+    handleParticipantsUpdate,
+  );
+  room.on(
+    JitsiMeetJS.events.conference.TRACK_REMOVED,
+    handleParticipantsUpdate,
+  );
 
-  reRender();
+  setTimeout(reRender, 1000);
 }
 
 connection.addEventListener(

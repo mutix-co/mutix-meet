@@ -12,7 +12,6 @@ const Participants = styled.div`
 export default function Room({
   participants, listen,
 }) {
-  console.log(participants);
   return (
     <Participants>
       <Participant participant={participants['cantonese-1-cantonese']} muted={listen !== 'cantonese'} />

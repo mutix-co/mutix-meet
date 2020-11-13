@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/media-has-caption */
+
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -14,18 +16,31 @@ const Wrapper = styled.div`
   `}
 `;
 
+const Video = styled.video`
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+`;
+
 export default function Participant({ participant, muted, disabled }) {
   const videoRef = useRef();
   const audioRef = useRef();
+
   if (participant !== null) {
-    const video = participant.getTracksByMediaType('video');
-    const audio = participant.getTracksByMediaType('audio');
+    const video = participant.getTracksByMediaType('video')[0];
+    const audio = participant.getTracksByMediaType('audio')[0];
+    if (video !== undefined && disabled !== true && videoRef.current !== undefined) {
+      video.attach(videoRef.current);
+    }
+    if (audio !== undefined && participant.isMyself !== true && audioRef.current !== undefined) {
+      audio.attach(audioRef.current);
+    }
   }
 
   return (
     <Wrapper disabled={disabled}>
-      <video ref={videoRef} autoPlay='1' />
-      <audio ref={audioRef} autoPlay='1' />
+      <Video ref={videoRef} autoPlay />
+      <audio ref={audioRef} autoPlay muted={muted} />
     </Wrapper>
   );
 }
@@ -33,6 +48,7 @@ export default function Participant({ participant, muted, disabled }) {
 Participant.propTypes = {
   participant: PropTypes.shape({
     getTracksByMediaType: PropTypes.func,
+    isMyself: PropTypes.bool,
   }),
   muted: PropTypes.bool,
   disabled: PropTypes.bool,
