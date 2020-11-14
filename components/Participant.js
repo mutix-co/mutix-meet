@@ -6,9 +6,9 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
   border: 1px solid #ccc;
-  width: 32%;
+  width: 33%;
   height: 40vh;
-  margin: 1.5vh 0;
+  margin: 5px 0;
 
   ${({ disabled }) => disabled && `
     height: 0;

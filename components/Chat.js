@@ -171,11 +171,17 @@ export default function MeetRoom() {
     reRender = forceUpdate;
     (async () => {
       try {
-        await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
-        await handleDeviceListChanged();
+        await navigator.mediaDevices.getUserMedia({ audio: true });
       } catch (error) {
         alert(error.message);
       }
+      try {
+        await navigator.mediaDevices.getUserMedia({ video: true });
+      } catch (error) {
+        alert(error.message);
+      }
+
+      await handleDeviceListChanged();
     })();
     return () => { reRender = () => {}; };
   }, []);
