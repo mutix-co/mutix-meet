@@ -7,8 +7,8 @@ import styled from 'styled-components';
 const Wrapper = styled.div`
   border: 1px solid #ccc;
   width: 33%;
-  height: 40vh;
-  margin: 5px 0;
+  height: 260px;
+  margin-top: 5px;
 
   ${({ disabled }) => disabled && `
     height: 0;
