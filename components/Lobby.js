@@ -142,8 +142,7 @@ export default function Lobby({
                 <button type="submit" name="displayNmae" value="interpretation-chinese" disabled={isSubmitting}>口譯（粵 to 華）</button>
                 <button type="submit" name="displayNmae" value="interpretation-cantonese" disabled={isSubmitting}>口譯（華 to 粵）</button>
                 <div />
-                <button type="submit" name="displayNmae" value="chinese-viewer" disabled={isSubmitting}>華語聽眾</button>
-                <button type="submit" name="displayNmae" value="cantonese-viewer" disabled={isSubmitting}>粵語聽眾</button>
+                <button type="submit" name="displayNmae" value="viewer" disabled={isSubmitting}>聽眾</button>
                 <div />
               </Buttons>
             </Form>

@@ -164,7 +164,6 @@ connection.connect();
 
 export default function MeetRoom() {
   const [, forceUpdate] = useReducer((c) => c + 1, 0);
-  const [listen, setListen] = useState('none');
 
   useEffect(() => {
     reRender = forceUpdate;
@@ -201,8 +200,6 @@ export default function MeetRoom() {
           setSpeaker(input.speaker);
           room.displayNmae = input.displayNmae;
           room.setDisplayName(input.displayNmae);
-          const [, target] = /^(chinese|cantonese)/.exec(input.displayNmae);
-          setListen(target);
           handleParticipantsUpdate();
         }}
       />
@@ -210,6 +207,6 @@ export default function MeetRoom() {
   }
 
   return (
-    <Room participants={participants} listen={listen} />
+    <Room participants={participants} />
   );
 }
