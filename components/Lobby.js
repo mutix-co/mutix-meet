@@ -139,11 +139,11 @@ export default function Lobby({
                 <button type="submit" name="displayNmae" value="chinese-4-chinese" disabled={isSubmitting}>主持人 - 吳思鋒</button>
                 <button type="submit" name="displayNmae" value="cantonese-5-cantonese" disabled={isSubmitting}>列席(港) - 陳國慧</button>
                 <button type="submit" name="displayNmae" value="cantonese-6-cantonese" disabled={isSubmitting}>列席(澳) - 莫兆忠</button>
-                <button type="submit" name="displayNmae" value="cantonese-interpretation-chinese" disabled={isSubmitting}>口譯（粵 to 華）</button>
-                <button type="submit" name="displayNmae" value="chinese-interpretation-cantonese" disabled={isSubmitting}>口譯（華 to 粵）</button>
+                <button type="submit" name="displayNmae" value="interpretation-chinese" disabled={isSubmitting}>口譯（粵 to 華）</button>
+                <button type="submit" name="displayNmae" value="interpretation-cantonese" disabled={isSubmitting}>口譯（華 to 粵）</button>
                 <div />
-                <button type="submit" name="displayNmae" value="chinese-viewer-none" disabled={isSubmitting}>華語聽眾</button>
-                <button type="submit" name="displayNmae" value="cantonese-viewer-none" disabled={isSubmitting}>粵語聽眾</button>
+                <button type="submit" name="displayNmae" value="chinese-viewer" disabled={isSubmitting}>華語聽眾</button>
+                <button type="submit" name="displayNmae" value="cantonese-viewer" disabled={isSubmitting}>粵語聽眾</button>
                 <div />
               </Buttons>
             </Form>
