@@ -4,7 +4,7 @@ import window from 'global/window';
 import Lobby from './Lobby';
 import Room from './Room';
 
-const jitsiDomain = 'jitsi.jothon.online';
+const jitsiDomain = 'meet.jit.si';
 const { JitsiMeetJS } = window;
 
 let reRender = () => {};
@@ -20,6 +20,7 @@ const connection = new JitsiMeetJS.JitsiConnection(null, null, {
   },
   bosh: `wss://${jitsiDomain}/xmpp-websocket`,
   websocket: `wss://${jitsiDomain}/xmpp-websocket`,
+  clientNode: 'http://jitsi.org/jitsimeet',
 });
 
 let webcamTrack = null;
