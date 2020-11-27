@@ -83,8 +83,8 @@ const whitelist = [
   'chinese-4-chinese',
   'cantonese-5-cantonese',
   'cantonese-6-cantonese',
-  'cantonese-interpretation-chinese',
-  'chinese-interpretation-cantonese',
+  'interpretation-chinese',
+  'interpretation-cantonese',
 ];
 
 let participants = {};

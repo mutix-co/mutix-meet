@@ -193,8 +193,8 @@ export default function Room({
           <Participant participant={participants['chinese-4-chinese']} muted={['chinese', 'all'].indexOf(listen) === -1} />
           <Participant participant={participants['cantonese-5-cantonese']} muted={['cantonese', 'all'].indexOf(listen) === -1} />
           <Participant participant={participants['cantonese-6-cantonese']} muted={['cantonese', 'all'].indexOf(listen) === -1} />
-          <Participant participant={participants['cantonese-interpretation-chinese']} muted={['chinese', 'all'].indexOf(listen) === -1} disabled />
-          <Participant participant={participants['chinese-interpretation-cantonese']} muted={['cantonese', 'all'].indexOf(listen) === -1} disabled />
+          <Participant participant={participants['interpretation-chinese']} muted={['chinese', 'all'].indexOf(listen) === -1} disabled />
+          <Participant participant={participants['interpretation-cantonese']} muted={['cantonese', 'all'].indexOf(listen) === -1} disabled />
         </Participants>
         <Footer>
           <Toolbar>
