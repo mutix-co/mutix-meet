@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import window from 'global/window';
 import Lobby from './Lobby';
 import Room from './Room';
@@ -184,6 +184,13 @@ export default function MeetRoom() {
     return () => { reRender = () => {}; };
   }, []);
 
+  const onMuteChange = (mute) => {
+    if (microphoneTrack !== null) {
+      if (mute === false) microphoneTrack.unmute();
+      else microphoneTrack.mute();
+    }
+  };
+
   if (room === null) {
     return <div />;
   }
@@ -207,6 +214,6 @@ export default function MeetRoom() {
   }
 
   return (
-    <Room participants={participants} />
+    <Room participants={participants} onMuteChange={onMuteChange} />
   );
 }

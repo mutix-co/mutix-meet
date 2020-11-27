@@ -57,6 +57,11 @@ const QRCode = styled.img`
   height: 160px;
 `;
 
+const Toolbar = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const Switch = styled.div`
   display: flex;
   margin-bottom: 36px;
@@ -102,15 +107,60 @@ const Switch = styled.div`
   }
 `;
 
+const Mute = styled.div`
+  display: flex;
+  margin-bottom: 36px;
+  overflow: hidden;
+
+  & input {
+    position: absolute !important;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    width: 1px;
+    border: 0;
+    overflow: hidden;
+
+    &:checked + label {
+      display: none;
+    }
+  }
+
+  & label {
+    background-color: transparent;
+    border: transparent;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 14px;
+    line-height: 1;
+    text-align: center;
+    padding: 8px 16px;
+    margin-right: -1px;
+    transition: all 0.1s ease-in-out;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+`;
+
+const Icon = styled.img`
+  width: 64px;
+`;
+
 export default function Room({
-  participants,
+  participants, onMuteChange,
 }) {
   const [listen, setListen] = useState('all');
+  const [muted, setMuted] = useState('mute');
 
-  const onLanguageChange = (evt) => setListen(evt.target.value);
+  const handeLanguageChange = (evt) => setListen(evt.target.value);
+
+  const handeMuteChange = (evt) => {
+    setMuted(evt.target.value);
+    onMuteChange(evt.target.value === 'mute');
+  };
 
   useEffect(() => {
-    window.addEventListener('keydown', (evt) => {
+    const handle = (evt) => {
       if (evt.keyCode === 49) {
         setListen('all');
         return;
@@ -123,8 +173,15 @@ export default function Room({
         setListen('cantonese');
         return;
       }
-    });
-  });
+      if (evt.keyCode === 32) {
+        setMuted(muted === 'unmute' ? 'mute' : 'unmute');
+        onMuteChange(muted === 'unmute');
+        return;
+      }
+    };
+    window.addEventListener('keydown', handle);
+    return () => window.removeEventListener('keydown', handle);
+  }, [muted]);
 
   return (
     <Wrapper>
@@ -140,14 +197,26 @@ export default function Room({
           <Participant participant={participants['chinese-interpretation-cantonese']} muted={['cantonese', 'all'].indexOf(listen) === -1} disabled />
         </Participants>
         <Footer>
-          <Switch onChange={onLanguageChange}>
-            <input type="radio" id="language-all" name="language" value="all" checked={listen === 'all'} />
-            <label htmlFor="language-all">全</label>
-            <input type="radio" id="language-chinese" name="language" value="chinese" checked={listen === 'chinese'} />
-            <label htmlFor="language-chinese">華語</label>
-            <input type="radio" id="language-cantonese" name="language" value="cantonese" checked={listen === 'cantonese'} />
-            <label htmlFor="language-cantonese">粵語</label>
-          </Switch>
+          <Toolbar>
+            <Switch>
+              <input type="radio" id="language-all" name="language" value="all" onChange={handeLanguageChange} checked={listen === 'all'} />
+              <label htmlFor="language-all">全</label>
+              <input type="radio" id="language-chinese" name="language" value="chinese" onChange={handeLanguageChange} checked={listen === 'chinese'} />
+              <label htmlFor="language-chinese">華語</label>
+              <input type="radio" id="language-cantonese" name="language" value="cantonese" onChange={handeLanguageChange} checked={listen === 'cantonese'} />
+              <label htmlFor="language-cantonese">粵語</label>
+            </Switch>
+            <Mute>
+              <input type="radio" id="muted-mute" name="muted" value="mute" onChange={handeMuteChange} checked={muted === 'mute'} />
+              <label htmlFor="muted-mute">
+                <Icon src="/icons/microphone-unmute.png" />
+              </label>
+              <input type="radio" id="muted-unmute" name="muted" value="unmute" onChange={handeMuteChange} checked={muted === 'unmute'} />
+              <label htmlFor="muted-unmute">
+                <Icon src="/icons/microphone-mute.png" />
+              </label>
+            </Mute>
+          </Toolbar>
           <Information>
             <div><QRCode src="/slido.svg" alt="slido" /></div>
             <div>IATC TW 2020 年度論壇 國際連線直播場次 -【從新文本到廣東話音樂劇，鏡向反射的形式翻譯】</div>
@@ -162,5 +231,9 @@ export default function Room({
 
 Room.propTypes = {
   participants: PropTypes.shape().isRequired,
-  listen: PropTypes.string.isRequired,
+  onMuteChange: PropTypes.func,
+};
+
+Room.defaultProps = {
+  onMuteChange: () => {},
 };
